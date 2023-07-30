@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 
-const { frMessages, } = require("../constantes");
+
 const tkncontroller = require("../controllers/token.controller");
 const { sendResponse } = require("../functions/util");
 
-verifyToken = (req, res, next) => {
+verifyToken = async (req, res, next) => {
 //décomposition des cookies
 var cookies = {};
   if (req.headers.cookie !== undefined) {
@@ -26,9 +26,12 @@ var cookies = {};
 // récupération du id_user
   //var id_user = req.query.id_user || req.body.id_user || req.headers["x-access-id_user"]||decodeURIComponent(cookies["id_user"]);
   var id_user =  req.headers["x-access-id_user"];
+  if (!id_user) {
+    return sendResponse(res,200,"ID_USER_REQUIRED",{})
+  }
 //décodage du token avec jwt
 
-  jwt.verify(token, config.secret, (err, decoded) => {
+  jwt.verify(token, config.secret, async (err, decoded) => {
     //on verifie que le token envoyé appartient bien a l'utilisateur qui l'a envoyé
     if(!decoded){
       return sendResponse(res,200,"TOKEN_INVALID",{})
@@ -37,27 +40,25 @@ var cookies = {};
     {
       return sendResponse(res,200,"TOKEN_INVALID",{})
     }
-
   
-    tkncontroller.findToken(id_user).then(data => {
-      // on verifie dans la BD si cet utilisateur a encore son token
-      if (data.count == 0) {
-        return sendResponse(res,403,"TOKEN_REQUIRED",{})
+    const tkn=await tkncontroller.findToken(id_user)
+    if (!tkn.token) {
+        return sendResponse(res,200,"NOT CONNECTED",{})
       }
-      // on verifie que le token envoyé est bien celui stocké
-      if (data.rows[0].token != token) {
-        return sendResponse(res,403,"TOKEN_INVALID",{})
+
+    if (tkn.token != token) {
+        return sendResponse(res,200,"TOKEN_INVALID",{})
       }
       req.id_user = decoded.id_user;
       next();
-    }).catch(err => {
-      return sendResponse(res,500,"ERROR_MESSAGE",{erreur:err.message})
-    });
   });
 };
 
 
+
 const authJwt = {
-  verifyToken: verifyToken
-};
-module.exports = authJwt;
+    verifyToken: verifyToken
+  };
+  module.exports = authJwt;
+
+

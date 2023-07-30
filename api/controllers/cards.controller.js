@@ -35,6 +35,7 @@ exports.findAll = async (req, res) => {
   const id_user=req.body.data.id_user||req.params.id_user
   let query = "Select * from user_card where id_user=?"
   const search_query = mysql.format(query,[id_user])
+  console.log(search_query)
   const results=await execQuery(search_query)
   return sendResponse(res, 200, "DATA_SUCCESS", results);
 

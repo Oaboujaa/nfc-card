@@ -1,45 +1,31 @@
-const db = require("../models");
-const Token = db.tokens;
-const { frMessages } = require("../constantes");
+const { execQuery } = require("../config/db");
+const mysql = require('mysql2')
 
-exports.createToken = (data) => {
 
-    
-    return Token.create({
-        token: data.token,
-        expiration: data.expiration,
-        id_user:data.id_user
-    })
-      .then((token) => {
-        console.log(">> Token Saved : ");
-        return token;
-      })
-      .catch((err) => {
-        console.log(">> Error while creating Token: ", err);
-      });
-  };
-
-  exports.findToken = (userId) => {
-    
-    return Token.findAndCountAll({where: {id_user: userId}})
-    .then(data => {
-      return data
-    })
-    .catch(err => {
-          console.log("Error : ",err.message)
- 
-    })
- 
-  };
-
-  exports.removeToken = (userId) => {
+exports.createToken = async (data) => {
   
-    return Token.destroy({where: {id_user: userId}})
-    .then(data => {
-      return data
-    })
-    .catch(err => {
-          console.log("Error : ",err.message)
- 
-    })
+    let query = 'INSERT INTO tokens ( `id_user`,`token`, `expiration`)'+
+                                              ' VALUES (?, ?, ?)';
+    const values = [data.id_user, data.token, data.expiration];
+    let search_query = mysql.format(query,values)
+    let results=await execQuery(search_query) 
+    return results
+
+  };
+
+  exports.findToken = async (userId) => {
+    
+    let query = "Select * from tokens where id_user= ? "
+    const search_query = mysql.format(query,[userId])
+    const results=await execQuery(search_query)
+    return results;
+
+  };
+
+  exports.removeToken = async (userId) => {
+  
+    let query = "DELETE from tokens where id_user= ? "
+    const search_query = mysql.format(query,[userId])
+    const results=await execQuery(search_query)
+    return results;
   };
