@@ -1,6 +1,6 @@
 const { execQuery } = require("../config/db");
 const mysql = require('mysql2')
-
+const { sendResponse } = require("../functions/util");
 
 exports.createToken = async (data) => {
   
@@ -22,6 +22,14 @@ exports.createToken = async (data) => {
 
   };
 
+  exports.findOne= async (userId) => {
+    
+    let query = "Select * from tokens where id_user= ? "
+    const search_query = mysql.format(query,[userId])
+    const results=await execQuery(search_query)
+    return sendResponse(res, 200, "DATA_SUCCESS", results);
+
+  };
   exports.removeToken = async (userId) => {
   
     let query = "DELETE from tokens where id_user= ? "

@@ -43,6 +43,7 @@ const Mycards = () => {
       <div><Toaster/></div>
       <div className="cards-header">
         <input type="submit" value="Nouvelle Carte" className="button"/>
+        <input type="submit" value="Valider" className="button"/>
       </div>
       <div className="cards-table-container">
         <table className="card-list-table">

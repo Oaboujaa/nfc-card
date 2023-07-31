@@ -1,13 +1,16 @@
 import React from 'react';
 import { Route, Navigate, Outlet, Routes } from 'react-router-dom';
+import { get } from '../http/api';
 
-
-const isAuthenticated = () => {
+const isAuthenticated =  async () => {
   const id_user = localStorage.getItem('id_user');
   const token = localStorage.getItem('token');
-  return id_user && token;
+  const response =  await get('auth/'+id_user);
+  if(response.message=="")
+  console.log(response)
+  return false;
 };
-
+/* 
 const ProtectedRoutes = ({ element: Component, ...rest }) => {
     // let auth = {'token':false}
   return (
@@ -27,5 +30,14 @@ const ProtectedRoutes = ({ element: Component, ...rest }) => {
     
   );
 };
+ */
+const ProtectedRoutes = ({  children }) => {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+  
+}
+
 
 export default ProtectedRoutes;

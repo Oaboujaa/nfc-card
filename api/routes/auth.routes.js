@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const controller = require("../controllers/auth.controller");
-
+const { authJwt } = require("../middleware");
 
   router.use(function(req, res, next) {
     res.header(
@@ -11,6 +11,6 @@ const controller = require("../controllers/auth.controller");
   });
   router.post("/login", controller.login);
   router.post("/logout", controller.logout);
-
+  router.get("/:id_user",authJwt.verifyToken,controller.verifyToken);
 
 module.exports = router;

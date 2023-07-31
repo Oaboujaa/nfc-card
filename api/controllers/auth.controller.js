@@ -73,3 +73,8 @@ exports.login = async(req, res) => {
     
 
 }; 
+
+
+exports.verifyToken = async (req,res) => {
+  return sendResponse(res,200,"AUTH_SUCCESS",{})
+}; 

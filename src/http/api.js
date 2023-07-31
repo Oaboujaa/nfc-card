@@ -19,10 +19,25 @@ const handleError = (error) => {
 };
 
 
+const getHeaders = () => {
+  const id_user = JSON.parse(localStorage.getItem('id_user'));
+  const token = JSON.parse(localStorage.getItem('token'));
+  const headers = {};
+
+  if (id_user && token) {
+    headers['x-access-token'] = token;
+    headers['x-access-id_user'] = id_user;
+    headers['Content-Type'] = 'application/json'
+  }
+
+  return headers;
+};
+
 
 export const get = async (endpoint = '') => {
   try {
-    const response = await fetch(`${BASE_URL}/${endpoint}`);
+    const headers = getHeaders();
+    const response = await fetch(`${BASE_URL}/${endpoint}`, {headers});
     return handleResponse(response);
   } catch (error) {
     handleError(error);
@@ -32,7 +47,8 @@ export const get = async (endpoint = '') => {
 
 export const getImage = async (endpoint = '') => {
     try {
-      const response = await fetch(`${BASE_URL}/uploads/${endpoint}`);
+      const headers = getHeaders();
+      const response = await fetch(`${BASE_URL}/uploads/${endpoint}`, {headers});
       return response;
     } catch (error) {
       handleError(error);
@@ -41,11 +57,10 @@ export const getImage = async (endpoint = '') => {
 
 export const post = async (endpoint = '', data = {}) => {
   try {
+    const headers = getHeaders();
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: headers,
       body: JSON.stringify(data),
     });
     return handleResponse(response);
@@ -57,11 +72,10 @@ export const post = async (endpoint = '', data = {}) => {
 
 export const patch = async (endpoint = '', data = {}) => {
   try {
+    const headers = getHeaders();
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: headers,
       body: JSON.stringify(data),
     });
     return handleResponse(response);
@@ -73,8 +87,10 @@ export const patch = async (endpoint = '', data = {}) => {
 
 export const del = async (endpoint = '') => {
   try {
+    const headers = getHeaders();
     const response = await fetch(`${BASE_URL}/${endpoint}`, {
       method: 'DELETE',
+      headers: headers,
     });
     return handleResponse(response);
   } catch (error) {

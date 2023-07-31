@@ -36,9 +36,16 @@ function App() {
               {/* <ProtectedRoutes path="/Dashboard" element={<Dashboard/>} />
               <ProtectedRoutes path='/newcard' element={<NewCard/>} /> */}
 
-              <Route element={<ProtectedRoutes/>}>
+              <Route path="/Dashboard" element={
+                            <ProtectedRoutes >
+                              <Dashboard />
+                            </ProtectedRoutes>}
+                      />
+
+
+           {/*    <Route element={<ProtectedRoutes/>}>
                 <Route exact path="/Dashboard" element={<Dashboard/>}  />
-              </Route>
+              </Route> */}
 
               <Route path="*" element={<PageNotFound />} />
             </Routes>
