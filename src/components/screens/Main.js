@@ -4,15 +4,15 @@ import "./Main.css"
 import { Link } from 'react-scroll';
 import { useState, useEffect } from 'react';
 import { FaFacebook, FaInstagram, FaLinkedin, FaShare, FaQrcode, FaGlobe, FaArrowAltCircleUp, FaTelegramPlane } from "react-icons/fa"
-import logo from "../Assets/SmartCard_Light.png"
+import logo from "../../Assets/SmartCard_Light.png"
 import { AiFillFileText } from 'react-icons/ai';
 import { FiAnchor, FiPhoneCall } from 'react-icons/fi';
 import { FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 import MobileMenu from './MobileMenu';
 import { useNavigate } from 'react-router-dom';
 import ImageComponent from './ImageComponent';
-import first_theme_image from "../Assets/first-theme-smartcard.png"
-import nfcImage from "../Assets/nfc_detector.jpg"
+import first_theme_image from "../../Assets/first-theme-smartcard.png"
+import nfcImage from "../../Assets/nfc_detector.jpg"
 
 
 
@@ -28,7 +28,7 @@ const Main = () => {
     const navigate = useNavigate();
 
     const navigateToAccount = () => {
-        navigate("/register") 
+        navigate("/login") 
     }
 
     const handleScrollToTop = () => {

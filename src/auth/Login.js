@@ -2,27 +2,55 @@ import React from 'react'
 import './Auth.css'
 import loginLogo from "../Assets/SmartCard_Light.png"
 import { useState } from 'react'
-import { FaBackward } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { post} from '../http/api';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FaBackward } from 'react-icons/fa';
+import { Link,useNavigate} from 'react-router-dom';
+import {getData,setData} from '../store/Store'
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin =async (e) => {
       e.preventDefault();
-
-      const validEmail = 'rzyat';
-      const validPassword = '123';
-
-      if (email === validEmail && password === validPassword) {
-        setError('');
-        alert('Login avec succès');
-      } else {
-        setError('Email ou Mot de passe invalide');
+      if (!email){
+        setError("Merci de saisir l'email ! ")
+        console.log("")
+        return
       }
+      if (!password){
+        setError("Merci de saisir le mot de passe ! ")
+        return
+      }
+      const userData={
+        data:{email:email,
+        password:password}
+      }
+      const response = await post('auth/login',userData);
+      // setData("id_user",response.id)
+      if(Object.keys(response.data).length === 0){
+        console.log("response",response.data)
+        setError('Email ou Mot de passe invalide')
+        return
+      }
+      setError('')
+      setData("id_user",response.data.id_user)
+      setData("token",response.data.token)
+      navigate('../Dashboard')
+      // const validEmail = 'rzyat';
+      // const validPassword = '123';
+
+      // if (email === validEmail && password === validPassword) {
+      //   navigate('../Dashboard')
+      //   // setError('');
+      //   // alert('Login avec succès');
+      //   setError('Email ou Mot de passe invalide');
+      // }
     };
 
   return (

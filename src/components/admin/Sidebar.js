@@ -3,16 +3,22 @@ import React,{Fragment,useRef,useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUser,faChartSimple,faIdCard,faList,faRightFromBracket,faGear } from '@fortawesome/free-solid-svg-icons'
 import CloseIcon from '../reusable/CloseIcon';
-
+import { useNavigate} from 'react-router-dom';
+import {deleteData} from '../../store/Store'
+// import { delete} from '../../http/api';
 
 const Sidebar = ({updateTitle}) => {
   const [open,setOpen]=useState(true)
   const [title,setTitle]=useState("Tableau de bord")
-
+  const navigate = useNavigate();
   const openSidebar = () => {
     setOpen(!open)
   }
-  
+  const handleLogout = () => {
+    deleteData("id_user")
+    deleteData("token")
+    navigate('/')
+  }
   const handleItemClick = (event) => {
     let itemText = event.currentTarget.textContent;
     if (itemText==""){
@@ -49,7 +55,7 @@ const Sidebar = ({updateTitle}) => {
           </div>
         </div>
 
-        <div className="sidebar-bottom">
+        <div className="sidebar-bottom" onClick={handleLogout}>
           <FontAwesomeIcon icon={faRightFromBracket}  className='icon-fa-user'/>
           <h2 className='sidebar-text'>Se déconnecter</h2>
         </div>
