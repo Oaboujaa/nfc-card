@@ -44,9 +44,7 @@ const Settings = () => {
       try {
         const response = await get('users/1');
         const imageData = await getImage(response.data.image);
-        console.log(imageData)
         setFile(imageData.url)
-        console.log(response.data);
         setUserData(response.data);
         setLoading(false); 
       } catch (error) {

@@ -2,13 +2,17 @@ import React from 'react';
 import { Route, Navigate, Outlet, Routes } from 'react-router-dom';
 import { get } from '../http/api';
 
-const isAuthenticated =  async () => {
+const isAuthenticated =   () => {
   const id_user = localStorage.getItem('id_user');
+  
   const token = localStorage.getItem('token');
-  const response =  await get('auth/'+id_user);
-  if(response.message=="")
-  console.log(response)
-  return false;
+  console.log(token)
+/*   const response =  await get('auth/'+id_user);
+  if(response.message=="AUTH_SUCCESS"){
+    return true;
+  }
+  console.log(response) */
+  return true;
 };
 /* 
 const ProtectedRoutes = ({ element: Component, ...rest }) => {

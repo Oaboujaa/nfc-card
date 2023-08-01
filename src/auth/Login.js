@@ -2,7 +2,7 @@ import React from 'react'
 import './Auth.css'
 import loginLogo from "../Assets/SmartCard_Light.png"
 import { useState } from 'react'
-import { post} from '../http/api';
+import { post,postLogin} from '../http/api';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -31,7 +31,7 @@ const Login = () => {
         data:{email:email,
         password:password}
       }
-      const response = await post('auth/login',userData);
+      const response = await postLogin(userData);
       // setData("id_user",response.id)
       if(Object.keys(response.data).length === 0){
         console.log("response",response.data)

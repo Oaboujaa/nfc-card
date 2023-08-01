@@ -4,7 +4,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import backImage from "../../no-image.png"
 import "./new-card.css"
 
-const NewCard = () => {
+const NewCard = ({handleHideNewcard}) => {
 
   const [backgroundImage, setBackgroundImage] = useState(backImage);
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -42,9 +42,9 @@ const NewCard = () => {
           <div className='new-card-title'>
             <p> Nouvelle carte digitale </p>
           </div>
-          <div className='new-card-button'>
+          {/* <div className='new-card-button'>
             <button> Retour </button>
-          </div>
+          </div> */}
         </div>
         <div className='new-card-under-title'>
           <div className='new-card-form-group'>
@@ -81,7 +81,7 @@ const NewCard = () => {
                 <button className='new-card-firstb'>
                   Sauvegarder
                 </button>
-                <button className='new-card-secondb'>
+                <button onClick={handleHideNewcard} className='new-card-secondb'>
                   Annuler
                 </button>
               </div>
