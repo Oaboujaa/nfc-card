@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import { get, getImage, patch, del } from '../../http/api';
+import { get, getImage, patch } from '../../http/api';
 
 import logo from '../../no-image.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

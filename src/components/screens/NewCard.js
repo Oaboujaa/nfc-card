@@ -3,12 +3,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import backImage from "../../no-image.png"
 import "./new-card.css"
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const NewCard = ({handleHideNewcard}) => {
 
   const [backgroundImage, setBackgroundImage] = useState(backImage);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [showEditIcon, setShowEditIcon] = useState(false);
+
+
+  
+
+  // const [cardCreationDate, setCardCreationDate] = useState('');
+
+  // const handleCreateCard = () => {
+  //   const currentDate = new Date().toLocaleDateString('fr-MA');
+  //   setCardCreationDate(currentDate);
+  // };
+
+
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -33,6 +47,28 @@ const NewCard = ({handleHideNewcard}) => {
     setShowEditIcon(false);
   };
 
+  const [formData, setFormData] = useState({
+    card_name: '',
+    fonction: '',
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://ouss.sytes.net:5000/api/cards', formData);
+      handleHideNewcard(false)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
 
   return (
@@ -48,14 +84,14 @@ const NewCard = ({handleHideNewcard}) => {
         </div>
         <div className='new-card-under-title'>
           <div className='new-card-form-group'>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div>
                 <label> Url d'alias </label>
                 <input type='text' placeholder='URL de ma page' />
                 <label> Nom de la carte </label>
-                <input type='text' placeholder='Entrez le nom de votre carte' />
+                <input value={formData.card_name} onChange={handleChange} name='card_name' type='text' placeholder='Entrez le nom de votre carte' />
                 <label> Occupation </label>
-                <input type='text' placeholder='Entrez votre profession' />
+                <input value={formData.fonction} onChange={handleChange} name='fonction' type='text' placeholder='Entrez votre profession' />
                   <div className='new-card-image-picker'>
                     <label> Image de profil </label>
                       <div

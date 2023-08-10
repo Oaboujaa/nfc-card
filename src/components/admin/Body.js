@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 
 import Sidebar from './Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,8 +10,15 @@ import Mycards from '../screens/Mycards';
 
 const Body = () => {
 
-  const [title,setTitle]=useState("Tableau de bord")
+  const [title,setTitle]=useState("")
   const [darkMode,setDarkMode]=useState(false)
+
+
+  useEffect(() => {
+    const storedTitle = localStorage.getItem("title");
+    setTitle(storedTitle)
+  }, []);
+
    const updateTitle = (selectedTitle) => {
     setTitle(selectedTitle);
   }; 

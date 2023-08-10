@@ -1,4 +1,4 @@
-import React,{Fragment,useRef,useState} from 'react'
+import React,{Fragment,useEffect,useState} from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUser,faChartSimple,faIdCard,faList,faRightFromBracket,faGear } from '@fortawesome/free-solid-svg-icons'
@@ -9,8 +9,13 @@ import {deleteData} from '../../store/Store'
 
 const Sidebar = ({updateTitle}) => {
   const [open,setOpen]=useState(true)
-  const [title,setTitle]=useState("Tableau de bord")
+  const [title,setTitle]=useState()
   const navigate = useNavigate();
+  useEffect(() => {
+    const storedTitle = localStorage.getItem("title");
+    setTitle(storedTitle)
+  }, []);
+
   const openSidebar = () => {
     setOpen(!open)
   }
@@ -27,6 +32,7 @@ const Sidebar = ({updateTitle}) => {
     console.log(itemText)
      setTitle(itemText)
      updateTitle(itemText)
+     localStorage.setItem("title", itemText);
   };
   return (
     <Fragment>

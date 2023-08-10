@@ -42,6 +42,8 @@ const Login = () => {
       setData("id_user",response.data.id_user)
       setData("token",response.data.token)
       navigate('../Dashboard')
+      let title="Tableau de bord"
+      localStorage.setItem("title", title);
       // const validEmail = 'rzyat';
       // const validPassword = '123';
 
