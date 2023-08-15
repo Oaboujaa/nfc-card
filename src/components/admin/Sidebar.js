@@ -6,8 +6,12 @@ import CloseIcon from '../reusable/CloseIcon';
 import { useNavigate} from 'react-router-dom';
 import {deleteData} from '../../store/Store'
 // import { delete} from '../../http/api';
+import { get, getImage } from '../../http/api';
 
 const Sidebar = ({updateTitle}) => {
+  const [showPers, setShowPers] = useState([])
+  const [imagePic, setImagePic] = useState('');
+
   const [open,setOpen]=useState(true)
   const [title,setTitle]=useState()
   const navigate = useNavigate();
@@ -22,7 +26,7 @@ const Sidebar = ({updateTitle}) => {
   const handleLogout = () => {
     deleteData("id_user")
     deleteData("token")
-    navigate('/')
+    navigate('/login')
   }
   const handleItemClick = (event) => {
     let itemText = event.currentTarget.textContent;
@@ -34,16 +38,39 @@ const Sidebar = ({updateTitle}) => {
      updateTitle(itemText)
      localStorage.setItem("title", itemText);
   };
+
+
+  useEffect(() => {
+    const fetchCardData = async() => {
+      try {
+        const id_user = localStorage.getItem("id_user");
+        const response = await get('users/'+id_user);
+        setShowPers(response.data);
+        setImagePic(`http://ouss.sytes.net:5000/api/uploads/${response.data.image}`);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchCardData();
+
+  },[])
+
+
   return (
     <Fragment>
+      <div className="closeIcon-container-sidebar">
         <CloseIcon opened={open} openSidebar={openSidebar}/>
+      </div>
+        
         
       <div className={"sidebar "+(!open?"closed":"")}>
 
         <div className="sidebar-top">
-          <FontAwesomeIcon icon={faCircleUser}  className='icon-fa-user'/>
+          {/* <FontAwesomeIcon icon={faCircleUser}  className='icon-fa-user'/> */}
           <FontAwesomeIcon icon={faGear} className='icon-settings' onClick={handleItemClick}/>
-          <h2 className='sidebar-text'>Oussama Aboujaafaer</h2>
+          <img src={imagePic} alt='image account' className='sidebar-image-account' />
+          <h2 className='sidebar-text'> {showPers.fullname} </h2>
         </div>
 
         <div className="sidebar-items">

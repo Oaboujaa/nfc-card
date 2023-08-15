@@ -1,8 +1,50 @@
 import React from 'react'
 import "./EditCard.css"
 import EditCardHeader from './EditCardScreens/EditCardHeader'
+import { useState, useEffect } from 'react'
+import { get,patch } from '../../http/api';
 
-const EditCard = ({handleHideEditCard}) => {
+
+const EditCard = ({handleHideEditCard, id_card}) => {
+
+    const [editedCard, setEditedCard] = useState({})
+
+    const handleEditInputChange = (event) => {
+        console.log(event.target.value)
+        const currentState = { ...editedCard };
+
+        currentState[event.target.name] = event.target.value;
+        setEditedCard(currentState);
+
+       
+    };
+    const handleEditSubmit = async (event) => {
+        try {
+            
+            const response = await patch('cards/'+id_card,editedCard);
+                console.log(response)
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+
+       
+    };
+
+    useEffect(() => {
+        const fetchCardData = async() => {
+          try {
+            const response = await get('cards/card/'+id_card);
+            console.log(response.data)
+            setEditedCard(response.data);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        }
+    
+        fetchCardData();
+    
+      },[])
+
   return (
     <div className='edit-card-container'>
         <div className='edit-card-header'>
@@ -16,31 +58,8 @@ const EditCard = ({handleHideEditCard}) => {
             </div>
         </div>
         <div>
-            <EditCardHeader/>
+            <EditCardHeader id_card={id_card} editedCard={editedCard} handleEditInputChange={handleEditInputChange} handleEditSubmit={handleEditSubmit}/>
         </div>
-        {/* <div className='edit-card-content'>
-            <div className='edit-card-upon-form'>
-                <form>
-                    <h2> Détails de la carte </h2>
-                    <label> Nom complet </label>
-                    <input type='text' />
-                    <label> Email </label>
-                    <input type='email' />
-                    <label> Téléphone </label>
-                    <input type='text' />
-                    <label> Adresse </label>
-                    <input type='text' />
-                    <label> Date de naissance </label>
-                    <input type='text' />
-                    <label> Société </label>
-                    <input type='text' />
-                    <label> Fonction </label>
-                    <input type='text' />
-                    <label> Nom complet </label>
-                    <input type='text' />
-                </form>
-            </div>
-        </div> */}
     </div>
   )
 }

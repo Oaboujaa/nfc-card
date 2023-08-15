@@ -28,8 +28,10 @@ const Login = () => {
         return
       }
       const userData={
-        data:{email:email,
-        password:password}
+        data:{
+          email:email,
+          password:password
+        }
       }
       const response = await postLogin(userData);
       // setData("id_user",response.id)
@@ -61,21 +63,21 @@ const Login = () => {
       <form className="login-form" onSubmit={handleLogin}>
         <h1>S'identifier</h1>
           <div className="login-form-group">
-            <label className='login-label' htmlFor="email">Email:</label>
+            <label className='login-label' htmlFor="email">Email</label>
             <input className='login-input'  id="email" name="email" placeholder="Votre email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
           <div className="login-form-group">
-            <label className='login-label' htmlFor="password">Mot de passe:</label>
+            <label className='login-label' htmlFor="password">Mot de passe</label>
             <input className='login-input' type="password" id="password" name="password" placeholder="Votre mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           <button className='login-button' type="submit">Login</button>
           {error && <div className="error-login-message">{error}</div>}
       </form>
       <div className="login-forgot-password">
-        <a href="#">Mot de passe oublié?</a>
+        <a href="#">Mot de passe oublié ?</a>
       </div>
       <div className="login-no-account">
-        Nouveau ici? <a href="/register"> Créer un compte </a>
+        Nouveau ici ? <a href="/register"> Créer un compte </a>
       </div>
       <div className='back-to-home'>
         <p> <Link to="/" style={{textDecorationLine:'none', color:'black',}}>  <span> <FaBackward/> </span> Revenir à la page d'accueil </Link> </p>

@@ -386,8 +386,8 @@
 
 .plan h1, h2, p{
     font-family: 'Montserrat', sans-serif;
-    margin-bottom: 20px;
-}
+/*     margin-bottom: 20px;
+ */}
 
 .plan h1{
     font-size: 40px;

@@ -1,18 +1,20 @@
 import React, { useState,useEffect } from 'react'
 
 import Sidebar from './Sidebar';
+import Topbar from './Topbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon,faSun } from '@fortawesome/free-solid-svg-icons'
 import Settings from '../screens/Settings';
 import Dashboard from '../screens/Dashboard';
 import Demandes from '../screens/Demandes';
 import Mycards from '../screens/Mycards';
+import CloseIcon from '../reusable/CloseIcon';
 
 const Body = () => {
 
   const [title,setTitle]=useState("")
   const [darkMode,setDarkMode]=useState(false)
-
+  const [open,setOpen]=useState(false)
 
   useEffect(() => {
     const storedTitle = localStorage.getItem("title");
@@ -22,7 +24,9 @@ const Body = () => {
    const updateTitle = (selectedTitle) => {
     setTitle(selectedTitle);
   }; 
-
+  const openSidebar = () => {
+    setOpen(!open)
+  }
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     const styleSheet=document.documentElement.style
@@ -61,19 +65,24 @@ const Body = () => {
   }; 
   return (
     <div className="body-container">
+      <Topbar  updateTitle={updateTitle}/>
         <Sidebar  updateTitle={updateTitle}/>    
+        
         <div className="main-container">
-          <div className="main-container-header">
+{/*           <div className="main-container-header">
             <h1 className="main-container-header-title">{title}</h1>
+            <div className="closeIcon-container-body">
+                  <CloseIcon opened={open} openSidebar={openSidebar}/>
+                </div>
             {
               darkMode?
               <FontAwesomeIcon icon={faSun} className='dark-mode-icon' onClick={toggleDarkMode}/>
               :
               <FontAwesomeIcon icon={faMoon} className='dark-mode-icon' onClick={toggleDarkMode}/>
             }
+
             
-            
-          </div>
+          </div> */}
           <div className="main-container-body">
             <div className="screen-container">
 

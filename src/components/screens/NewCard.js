@@ -50,6 +50,7 @@ const NewCard = ({handleHideNewcard}) => {
   const [formData, setFormData] = useState({
     card_name: '',
     fonction: '',
+    id_user:''
   });
 
   const handleChange = (e) => {
@@ -62,6 +63,8 @@ const NewCard = ({handleHideNewcard}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const id_user = localStorage.getItem("id_user");
+      formData.id_user = Number(id_user);
       const response = await axios.post('http://ouss.sytes.net:5000/api/cards', formData);
       handleHideNewcard(false)
     } catch (error) {
@@ -86,8 +89,8 @@ const NewCard = ({handleHideNewcard}) => {
           <div className='new-card-form-group'>
             <form onSubmit={handleSubmit}>
               <div>
-                <label> Url d'alias </label>
-                <input type='text' placeholder='URL de ma page' />
+                {/* <label> Url d'alias </label>
+                <input type='text' placeholder='URL de ma page' /> */}
                 <label> Nom de la carte </label>
                 <input value={formData.card_name} onChange={handleChange} name='card_name' type='text' placeholder='Entrez le nom de votre carte' />
                 <label> Occupation </label>

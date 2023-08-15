@@ -13,13 +13,15 @@ exports.findOne = async (req, res) => {
   };
 
 exports.createOne = async (req,res,user) => {
+  const status = data.status ? 1 : 0;
   const card_date = new Date();
   const image = req.file || ""
   const data=req.body
-  let query = 'INSERT INTO user_card ( `rnd_id`,`full_name`, `email`, `phone_number`, `fonction` , `societe`, `website`, `theme`, `photo`, `youtube`, `linkedin`, `instagram`, `facebook`, `card_name`, `card_date`)'+
-                                            ' VALUES ("000000",?, ?, ?,?, ?, ?,?, ?, ?,? ,? ,?, ?, ?)';
-  const values = [data.full_name, data.email, data.phone_number, data.fonction, data.societe, data.website, data.theme,image.filename,data.youtube, data.linkedin, data.instagram,data.facebook, data.card_name, card_date];
+  let query = 'INSERT INTO user_card ( `rnd_id`,`full_name`, `email`, `phone_number`, `fonction` , `societe`, `website`, `theme`, `photo`, `youtube`, `linkedin`, `instagram`, `facebook`, `adresse`, `naissance`, `twitter`, `reddit`, `whatsapp`, `pinterrest`, `tiktok`, `card_name`, `status`, `card_date`,`id_user`)'+
+                                            ' VALUES ("000000",?, ?, ?,?, ?, ?,?, ?, ?,? ,? ,?, ?, ?,?, ?,? ,? ,?, ?, ?,?,?)';
+  const values = [data.full_name, data.email, data.phone_number, data.fonction, data.societe, data.website, data.theme,image.filename,data.youtube, data.linkedin, data.instagram,data.facebook, data.adresse, data.naissance, data.twitter, data.reddit, data.whatsapp, data.pinterrest, data.tiktok, data.card_name, status, card_date, data.id_user];
   let search_query = mysql.format(query,values)
+ 
   let results=await execQuery(search_query) 
   const rndId=generateId(results.insertId)
 
@@ -42,11 +44,12 @@ exports.findAll = async (req, res) => {
   };
 
 exports.updateOne =async  (req, res) => {
-console.log("object")
+  const naissance = new Date().toISOString().slice(0, 10);
   const data=req.body
-  const query = 'UPDATE user_card SET `full_name`=?, `email`=?, `phone_number`=?, `fonction`=?, `societe`=?, `website`=?, `theme`=?, `photo`=?, `youtube`=?, `linkedin`=?, `instagram`=?, `card_name=?`, `facebook`=? where id=?'
-  const values = [data.full_name, data.email, data.phone_number,data.fonction, data.societe, data.website, data.theme, data.photo,data.youtube, data.linkedin, data.instagram, data.card_name, data.facebook,req.params.id_card];
+  const query = 'UPDATE user_card SET `full_name`=?, `email`=?, `phone_number`=?, `fonction`=?, `societe`=?, `website`=?, `theme`=?, `photo`=?, `youtube`=?, `linkedin`=?, `instagram`=?, `adresse`=?, `naissance`=?, `twitter`=?, `reddit`=?, `whatsapp`=?, `pinterrest`=?, `tiktok`=?, `card_name`=?, `facebook`=? where id=?'
+  const values = [data.full_name, data.email, data.phone_number,data.fonction, data.societe, data.website, data.theme, data.photo,data.youtube, data.linkedin, data.instagram, data.adresse, naissance, data.twitter, data.reddit, data.whatsapp, data.pinterrest, data.tiktok, data.card_name, data.facebook,req.params.id_card];
   const search_query = mysql.format(query,values)
+  console.log(search_query)
   const results=await execQuery(search_query)
   return sendResponse(res, 200, "DATA_SUCCESS", results);
 

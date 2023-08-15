@@ -1,11 +1,11 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import BasicDetails from './BasicDetails';
 import SocialLinks from './SocialLinks';
 import Templates from './Templates';
 import './Edition.css'
 
-const EditCardHeader = () => {
+const EditCardHeader = ({editedCard,handleEditInputChange,handleEditSubmit, id_card}) => {
 
 
     const [activeComponent, setActiveComponent] = useState("BasicDetails");
@@ -37,9 +37,9 @@ const EditCardHeader = () => {
             </button>
         </div>
 
-        {activeComponent === "BasicDetails" && <BasicDetails />}
-        {activeComponent === "Templates" && <Templates />}
-        {activeComponent === "SocialLinks" && <SocialLinks />}    
+        {activeComponent === "BasicDetails" && <BasicDetails editedCard={editedCard} handleEditInputChange={handleEditInputChange} handleEditSubmit={handleEditSubmit}/>}
+        {activeComponent === "Templates" && <Templates id_card={id_card}  editedCard={editedCard} handleEditInputChange={handleEditInputChange} handleEditSubmit={handleEditSubmit} />}
+        {activeComponent === "SocialLinks" && <SocialLinks editedCard={editedCard} handleEditInputChange={handleEditInputChange} handleEditSubmit={handleEditSubmit} />}    
     </div>
   )
 }
